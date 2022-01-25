@@ -11,13 +11,14 @@ const pool = new Pool({
 // writing SQL queries
 
 pool.query(`
-SELECT id, name, cohort_id
+SELECT students.id as student_id, students.name as name, students.cohort_id as cohort_id, cohorts.name as cohort
 FROM students
+JOIN cohorts ON cohort_id = cohorts.id
 LIMIT 5;
 `)
 .then(res => {
   res.rows.forEach(user=>{
-    console.log(`${user.name} has an id of ${user.id} and was in the ${user.cohort_id} cohort`);
+    console.log(`${user.name} has an id of ${user.student_id} and was in the ${user.cohort_id} cohort named ${user.cohort}`);
   });
 })
 .catch(err => console.error('query error', err.stack));
